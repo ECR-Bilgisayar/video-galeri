@@ -85,7 +85,6 @@ export default function UploadPage() {
           <input
             type="file"
             accept="video/*"
-            capture="environment"
             onChange={(e) => setFile(e.target.files?.[0] ?? null)}
             className="w-full text-sm"
           />
