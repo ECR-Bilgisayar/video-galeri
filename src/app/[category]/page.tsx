@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { CATEGORIES, getCategory } from "@/lib/categories";
 import { listVideos } from "@/lib/videos";
+import VideoGrid from "./VideoGrid";
 
 export const dynamic = "force-dynamic";
 
@@ -36,23 +37,9 @@ export default async function CategoryPage(props: PageProps<"/[category]">) {
         </Link>
       </div>
 
-      {videos.length === 0 ? (
-        <p className="text-neutral-500">Bu kategoride henüz video yok.</p>
-      ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {videos.map((v) => (
-            <div key={v.key} className="space-y-2">
-              <video
-                src={v.url}
-                controls
-                preload="metadata"
-                className="w-full aspect-video rounded-lg bg-black"
-              />
-              <p className="text-sm text-neutral-500 truncate">{v.name}</p>
-            </div>
-          ))}
-        </div>
-      )}
+      <VideoGrid
+        videos={videos.map((v) => ({ key: v.key, url: v.url, name: v.name }))}
+      />
     </main>
   );
 }

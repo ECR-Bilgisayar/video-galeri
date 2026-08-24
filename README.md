@@ -29,6 +29,7 @@ R2_ACCESS_KEY_ID=
 R2_SECRET_ACCESS_KEY=
 R2_BUCKET_NAME=video-galeri
 R2_PUBLIC_URL=https://pub-xxxx.r2.dev
+ADMIN_PIN=              # video silmek için istenen PIN, sen belirle
 ```
 
 Vercel'e deploy ederken aynı değişkenleri Vercel proje ayarlarından (Environment Variables) da eklemen gerekiyor.

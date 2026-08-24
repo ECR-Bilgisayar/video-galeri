@@ -1,4 +1,4 @@
-import { ListObjectsV2Command } from "@aws-sdk/client-s3";
+import { ListObjectsV2Command, DeleteObjectCommand } from "@aws-sdk/client-s3";
 import { getR2Client, getR2Bucket, getR2PublicUrl } from "@/lib/r2";
 
 export type VideoItem = {
@@ -31,4 +31,10 @@ export async function listVideos(categorySlug: string): Promise<VideoItem[]> {
       };
     })
     .sort((a, b) => b.uploadedAt.getTime() - a.uploadedAt.getTime());
+}
+
+export async function deleteVideo(key: string): Promise<void> {
+  await getR2Client().send(
+    new DeleteObjectCommand({ Bucket: getR2Bucket(), Key: key })
+  );
 }
