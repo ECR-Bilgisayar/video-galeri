@@ -23,11 +23,7 @@ export default function UploadPage() {
       const res = await fetch("/api/upload-url", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          category,
-          filename: file.name,
-          contentType: file.type || "video/mp4",
-        }),
+        body: JSON.stringify({ category, filename: file.name }),
       });
 
       if (!res.ok) {
@@ -37,13 +33,15 @@ export default function UploadPage() {
 
       const { uploadUrl } = await res.json();
 
-      const putRes = await fetch(uploadUrl, {
-        method: "PUT",
-        headers: { "Content-Type": file.type || "video/mp4" },
-        body: file,
+      const formData = new FormData();
+      formData.append("file", file);
+
+      const uploadRes = await fetch(uploadUrl, {
+        method: "POST",
+        body: formData,
       });
 
-      if (!putRes.ok) {
+      if (!uploadRes.ok) {
         throw new Error("Video yüklenemedi");
       }
 

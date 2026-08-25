@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { CATEGORIES, getCategory } from "@/lib/categories";
-import { listVideos } from "@/lib/videos";
+import { listVideos } from "@/lib/stream";
 import VideoGrid from "./VideoGrid";
 
 export const dynamic = "force-dynamic";
@@ -38,7 +38,11 @@ export default async function CategoryPage(props: PageProps<"/[category]">) {
       </div>
 
       <VideoGrid
-        videos={videos.map((v) => ({ key: v.key, url: v.url, name: v.name }))}
+        videos={videos.map((v) => ({
+          uid: v.uid,
+          name: v.name,
+          readyToStream: v.readyToStream,
+        }))}
       />
     </main>
   );
