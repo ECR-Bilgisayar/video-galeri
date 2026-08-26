@@ -9,13 +9,20 @@ export async function OPTIONS(req: NextRequest) {
 
 export async function GET(req: NextRequest) {
   const headers = corsHeaders(req.headers.get("origin"));
-  const category = req.nextUrl.searchParams.get("category");
+  try {
+    const category = req.nextUrl.searchParams.get("category");
 
-  if (!category || !getCategory(category)) {
-    return NextResponse.json({ error: "Geçersiz kategori" }, { status: 400, headers });
+    if (!category || !getCategory(category)) {
+      return NextResponse.json({ error: "Geçersiz kategori" }, { status: 400, headers });
+    }
+
+    const videos = await listVideos(category);
+
+    return NextResponse.json({ videos }, { headers });
+  } catch (err: any) {
+    return NextResponse.json(
+      { error: err?.message ?? "Beklenmeyen sunucu hatası" },
+      { status: 500, headers }
+    );
   }
-
-  const videos = await listVideos(category);
-
-  return NextResponse.json({ videos }, { headers });
 }
